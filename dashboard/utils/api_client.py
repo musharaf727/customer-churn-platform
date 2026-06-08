@@ -1,6 +1,6 @@
 import requests
 
-API_URL = "http://localhost:8000"
+API_URL = "https://churn-api-ghze.onrender.com"
 
 
 def predict_customer(customer):
