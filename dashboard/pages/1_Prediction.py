@@ -1,4 +1,5 @@
 import streamlit as st
+
 from utils.api_client import predict_customer
 
 st.title(
@@ -7,19 +8,21 @@ st.title(
 
 gender = st.selectbox(
     "Gender",
-    ["Male","Female"]
+    ["Male", "Female"]
 )
 
 tenure = st.number_input(
     "Tenure Months",
-    0,
-    100
+    min_value=0,
+    max_value=100,
+    value=12
 )
 
 monthly_charges = st.number_input(
     "Monthly Charges",
-    0.0,
-    500.0
+    min_value=0.0,
+    max_value=1000.0,
+    value=50.0
 )
 
 contract = st.selectbox(
@@ -34,7 +37,6 @@ contract = st.selectbox(
 if st.button("Predict"):
 
     customer = {
-
         "Gender": gender,
         "Tenure Months": tenure,
         "Monthly Charges": monthly_charges,
@@ -53,21 +55,21 @@ if st.button("Predict"):
         "Churn Probability",
         f"{prob:.2%}"
     )
-    
-if prob > 0.7:
-    
-    st.error(
-        "High Risk Customer"
-    )
 
-elif prob > 0.3:
+    if prob > 0.7:
 
-    st.warning(
-        "Medium Risk Customer"
-    )
+        st.error(
+            "🔴 High Risk Customer"
+        )
 
-else:
+    elif prob > 0.3:
 
-    st.success(
-        "Low Risk Customer"
-    )
+        st.warning(
+            "🟠 Medium Risk Customer"
+        )
+
+    else:
+
+        st.success(
+            "🟢 Low Risk Customer"
+        )
